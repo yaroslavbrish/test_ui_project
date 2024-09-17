@@ -19,4 +19,4 @@ def test_weak_password(create_account_page):
 
 def test_check_header_text(create_account_page):
     create_account_page.open_page()
-    create_account_page.check_header_text()
+    create_account_page.check_header_text("Create New Customer Account")

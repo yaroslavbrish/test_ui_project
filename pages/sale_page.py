@@ -24,7 +24,3 @@ class SalePage(BasePage):
             ec.element_to_be_clickable(loc.gear_loc)
         )
         gear.click()
-
-    def check_header_text(self, title):
-        h1_element = self.find(loc.header_name_loc)
-        assert h1_element.text == title

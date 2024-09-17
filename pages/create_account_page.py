@@ -2,6 +2,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.base_page import BasePage
 from pages.locators import create_account_locators as loc
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class CreateAccount(BasePage):
@@ -21,11 +22,15 @@ class CreateAccount(BasePage):
 
     def enter_password(self, password):
         password_field = self.find(loc.password_loc)
-        password_field.send_keys(password)
+        # password_field.send_keys(password)
+        actions = ActionChains(self.driver)
+        actions.click(password_field).send_keys(password).perform()
 
     def confirm_password(self, password):
         confirm_password_field = self.find(loc.confirm_password_loc)
-        confirm_password_field.send_keys(password)
+        # confirm_password_field.send_keys(password)
+        actions = ActionChains(self.driver)
+        actions.click(confirm_password_field).send_keys(password).perform()
 
     def click_button(self):
         self.find(loc.create_button_loc).click()
@@ -46,7 +51,3 @@ class CreateAccount(BasePage):
                 loc.password_strength_loc, "Weak"
             )
         )
-
-    def check_header_text(self):
-        h1_element = self.find(loc.header_name_loc)
-        assert h1_element.text == "Create New Customer Account"

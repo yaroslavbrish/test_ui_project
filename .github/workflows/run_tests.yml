@@ -39,7 +39,7 @@ jobs:
         if: "github.event.inputs.deployment_target == 'smoke'"
         run: pytest -v -m smoke --alluredir=results
         continue-on-error: true
-      - name: Run REGRESSUON suite
+      - name: Run REGRESSION suite
         if: "github.event.inputs.deployment_target == 'regression'"
         run: pytest -v -m regression --alluredir=results
         continue-on-error: true

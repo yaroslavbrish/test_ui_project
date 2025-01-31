@@ -1,3 +1,7 @@
+import pytest
+
+
+@pytest.mark.smoke
 def test_create_account_with_existing_email(create_account_page):
     create_account_page.open_page()
     create_account_page.enter_first_name('test')
@@ -9,6 +13,7 @@ def test_create_account_with_existing_email(create_account_page):
     create_account_page.check_alert_appears()
 
 
+@pytest.mark.regression
 def test_weak_password(create_account_page):
     create_account_page.open_page()
     create_account_page.enter_first_name('test')
@@ -17,6 +22,7 @@ def test_weak_password(create_account_page):
     create_account_page.check_password_is_weak('qwerty')
 
 
+@pytest.mark.regression
 def test_check_header_text(create_account_page):
     create_account_page.open_page()
     create_account_page.check_header_text("Create New Customer Account")

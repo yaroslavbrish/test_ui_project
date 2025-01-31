@@ -9,9 +9,9 @@ on:
         required: true
         default: smoke
         options:
-          - All
-          - Smoke
-          - Regression
+          - all
+          - smoke
+          - regression
 
 permissions:
   contents: read

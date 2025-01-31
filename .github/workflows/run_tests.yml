@@ -34,15 +34,15 @@ jobs:
       - name: Run ALL tests
         if: "github.event.inputs.deployment_target == 'all'"
         run: pytest -v --alluredir=results
-        continue-on-error: true
+        # continue-on-error: true
       - name: Run SMOKE suite
         if: "github.event.inputs.deployment_target == 'smoke'"
         run: pytest -v -m smoke --alluredir=results
-        continue-on-error: true
+        # continue-on-error: true
       - name: Run REGRESSION suite
         if: "github.event.inputs.deployment_target == 'regression'"
         run: pytest -v -m regression --alluredir=results
-        continue-on-error: true
+        # continue-on-error: true
       - name: Install Java
         uses: actions/setup-java@v4
         with:

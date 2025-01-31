@@ -61,6 +61,12 @@ jobs:
       #     name: _site
       #     path: _site
       #     retention-days: 3
+      
+      - name: Check if Allure results exist
+        run: ls -l results  # Должны быть JSON-файлы
+      - name: Debug - Check Allure report folder
+        run: ls -l _site  # Должны быть HTML-файлы
+
       - name: Generate report
         run: allure generate -c -o _site
       - name: Save raw Allure results

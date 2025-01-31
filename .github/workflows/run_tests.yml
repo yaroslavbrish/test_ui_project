@@ -64,7 +64,7 @@ jobs:
       
       - name: Check Allure installation
         run: allure --version #Проверяем, установлен ли Allure
-      - name: Debug: Check Allure results folder
+      - name: Debug - Check Allure results folder
         run: ls -l results #Убеждаемся, что папка results не пустая
       
       - name: Generate Allure report  #Создаtv папку _site перед генерацией

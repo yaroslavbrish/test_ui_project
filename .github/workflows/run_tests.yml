@@ -70,18 +70,18 @@ jobs:
       
       - name: Generate Allure report  #Создаtv папку _site перед генерацией
         run: |
-          mkdir -p _site
+          mkdir -p allure-report
           set -x
-          allure generate -c -o _site || echo "⚠️ Allure report generation failed!"
+          allure generate -c -o allure-report || echo "⚠️ Allure report generation failed!"
        
       - name: Debug - Check Allure report folder
-        run: ls -l _site || echo "⚠️ No Allure report generated!"  # Должны быть HTML-файлы
+        run: ls -l allure-report || echo "⚠️ No Allure report generated!"  # Должны быть HTML-файлы
 
       - name: Upload Allure report
         uses: actions/upload-artifact@v4
         with:
-          name: _site
-          path: _site
+          name: allure-report
+          path: allure-report
           retention-days: 1
 
 
@@ -106,13 +106,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: allure-report
-          path: _site
+          path: allure-report
   
-      - name: Debug - Check if _site exists after download
-        run: ls -l _site || echo "⚠️ No Allure report found after download!"
+      - name: Debug - Check if allure-report exists after download
+        run: ls -l allure-report || echo "⚠️ No Allure report found after download!"
   
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: allure-report
 

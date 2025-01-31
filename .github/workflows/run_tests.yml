@@ -33,15 +33,15 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run ALL tests
         if: "github.event.inputs.deployment_target == 'all'"
-        run: cd selenium_tests_eokulik && pytest -v --alluredir=results
+        run: pytest -v --alluredir=results
         continue-on-error: true
       - name: Run SMOKE suite
         if: "github.event.inputs.deployment_target == 'smoke'"
-        run: cd selenium_tests_eokulik && pytest -v -m smoke --alluredir=results
+        run: pytest -v -m smoke --alluredir=results
         continue-on-error: true
       - name: Run REGRESSUON suite
         if: "github.event.inputs.deployment_target == 'regression'"
-        run: cd selenium_tests_eokulik && pytest -v -m regression --alluredir=results
+        run: pytest -v -m regression --alluredir=results
         continue-on-error: true
       - name: Install Java
         uses: actions/setup-java@v4
@@ -54,7 +54,7 @@ jobs:
           sudo tar -zxvf allure-2.32.0.tgz -C /opt/ && 
           sudo ln -s /opt/allure-2.32.0/bin/allure /usr/bin/allure
       - name: Generate report
-        run: allure generate -c cd selenium_tests_eokulik/results -o _site
+        run: allure generate -c -o _site
       - name: Save report as artifact
         uses: actions/upload-artifact@v4
         with:

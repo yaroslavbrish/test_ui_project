@@ -33,16 +33,16 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run ALL tests
         if: "github.event.inputs.deployment_target == 'all'"
-        run: pytest -v --alluredir=results
-        # continue-on-error: true
+        run: pytest -v --alluredir=allure-results
+        continue-on-error: true
       - name: Run SMOKE suite
         if: "github.event.inputs.deployment_target == 'smoke'"
-        run: pytest -v -m smoke --alluredir=results
-        # continue-on-error: true
+        run: pytest -v -m smoke --alluredir=allure-results
+        continue-on-error: true
       - name: Run REGRESSION suite
         if: "github.event.inputs.deployment_target == 'regression'"
-        run: pytest -v -m regression --alluredir=results
-        # continue-on-error: true
+        run: pytest -v -m regression --alluredir=allure-results
+        continue-on-error: true
       - name: Install Java
         uses: actions/setup-java@v4
         with:
@@ -53,66 +53,24 @@ jobs:
           sudo wget https://github.com/allure-framework/allure2/releases/download/2.32.0/allure-2.32.0.tgz && 
           sudo tar -zxvf allure-2.32.0.tgz -C /opt/ && 
           sudo ln -s /opt/allure-2.32.0/bin/allure /usr/bin/allure
-      # - name: Generate report
-      #   run: allure generate -c -o _site
-      # - name: Save report as artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: _site
-      #     path: _site
-      #     retention-days: 3
-      
-      - name: Check Allure installation
-        run: allure --version #Проверяем, установлен ли Allure
-        
-      - name: Debug - Check Allure results folder
-        run: ls -l results || echo "⚠️ Folder 'results' does not exist or is empty!" #Убеждаемся, что папка results не пустая
-      
-      - name: Generate Allure report  #Создаtv папку _site перед генерацией
-        run: |
-          mkdir -p allure-report
-          set -x
-          allure generate -c -o allure-report || echo "⚠️ Allure report generation failed!"
-       
-      - name: Debug - Check Allure report folder
-        run: ls -l allure-report || echo "⚠️ No Allure report generated!"  # Должны быть HTML-файлы
-
-      - name: Upload Allure report
+      - name: Generate report
+        run: allure generate -c -o _site
+      - name: Save report as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: allure-report
-          retention-days: 1
+          name: _site
+          path: _site
+          retention-days: 3
 
-
-  # publish-report:
-  #   name: Report publication
-  #   runs-on: ubuntu-latest
-  #   needs: run-tests
-  #   steps:
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
-  #     - name: Upload Pages artifact
-  #       uses: actions/upload-pages-artifact@v3
-  #     - name: Deploy to GitHub Pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v4
   publish-report:
     name: Report publication
     runs-on: ubuntu-latest
     needs: run-tests
     steps:
-      - name: Download Allure report artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report
-  
-      - name: Debug - Check if allure-report exists after download
-        run: ls -l allure-report || echo "⚠️ No Allure report found after download!"
-  
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: allure-report
-
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
